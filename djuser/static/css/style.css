@@ -1,0 +1,73 @@
+body p{
+	 font-family: Arial, Helvetica, sans-serif;
+	 font-size: 18px;
+}
+.top_bar{
+	background-color: #003087;
+	padding: 5px ;
+} 
+.social_icons{
+	margin-right: 5px;
+}  
+.contact_info{
+	color: #fff;
+}
+.my_menu{
+	margin-top: 20px;
+}
+.my_menu .navbar-default{ 
+	background: none;
+	border: none;
+}
+.my_menu .navbar-default .navbar-nav .active a{
+	background-color: #003087;  /*#f26522;*/
+	color: #fff;
+}
+.my_menu .navbar-nav li a:hover{
+	background-color: #003087;
+	color: #fff;
+}
+.hospital{
+	margin-top: 30px;
+}
+.services{
+	background: radial-gradient(circle, #009cde, #003087);
+	padding: 30px;
+}
+.services h1{
+	color: #fff;
+}
+.contact_box{
+	width: 550px;
+	background-color: #eeeeee;
+	margin-bottom: 20px;
+}
+
+.footer{
+	background-color: #003087;
+	margin-top: 15px;
+	padding: 15px;
+}
+.footer-text{
+	color: #fff;
+}
+
+@media (max-width:1200px){
+	.my_menu .pull-right {
+		float: none !important;
+	}
+}
+/*admin-dashboard*/
+.rectangle{
+	height: 140px;
+	background: radial-gradient(circle, #009cde, #003087);
+	margin-bottom: 25px;
+}
+.rectangle .heading{
+	padding: 50px;
+	color: #ffffff;
+}
+.title{
+	padding: 50px;
+	text-decoration: underline;
+}

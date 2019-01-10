@@ -1,0 +1,48 @@
+{% extends 'master/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="row">
+    <div class="container">
+      <h2 class="text-center">Operator Lists</h2>
+      <hr>
+      <div class="col-sm-12">
+
+       <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>sr#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Age</th>
+            <th>Permanent_Address</th>
+            <th>Qualification</th>
+            <th>Degree</th>
+            <th>Joined_Date</th>
+            <th>Image</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in operator %}
+          <tr>
+            <td>{{e.user.id}}</td>
+            <td><a href="#">{{e.user.name}}</a></td>
+            <td>{{e.user.email}}</td>
+            <td>{{e.contact}}</td>
+            <td>{{e.age}}</td>
+            <td>{{e.permanent_address}}</td>
+            <td>{{e.qualification}}</td>
+            <td>{{e.degree}}</td>
+            <td>{{e.joined_date}}</td>
+            <td>{{e.image}}</td>
+            <td><a href="#"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="#"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

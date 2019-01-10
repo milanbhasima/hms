@@ -1,0 +1,29 @@
+{% extends 'master/base.html' %}
+{% block title %}Admin Dashboard | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="container">
+  <h2>Staff Detail</h2>
+  <p>Personal  Info:</p> 
+  <div class="thumbnail">
+    <table class="table table-bordered">
+    <ul>
+        <h4> <li>Id:{{user.id}}</li></h4>
+        <h4><li>Name:{{user.name}}</li></h4>
+        <h4><li>Email:{{user.email}}</li></h4>
+        <h4> <li>Id:{{doctor.id}}</li></h4>
+        <h4><li>Contact:{{doctor.contact}}</li></h4>
+        <h4><li>Age:{{doctor.age}}</li></h4>
+        <h4><li>Qualification:{{doctor.qualification}}</li></h4>
+        <h4><li>degree:{{doctor.degree}}</li></h4>
+        <h4><li>Permanent_address:{{doctor.permanent_address}}</li></h4>
+        <h4><li>Temporary_address:{{doctor.temporary}}</li></h4>
+        <h4><li>Joined_date:{{doctor.joined_date}}</li></h4>
+        <h4><li>Image{{doctor.image}}</li></h4>
+    </ul>
+    </table>
+  </div>           
+</div>
+
+{% include 'partial/footer.html' %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'master/base.html' %}
+{% block title %}Doctor Dashboard | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h2>Patients Detail</h2>
+      <p>Personal  Info:</p>  
+      <div class="thumbnail">
+      <ul>
+        <h3><li>Id:{{patient.id}}</li></h3>
+        <h3><li>Name:{{patient.name}}</li></h3>
+        <h3><li>Address:{{patient.address}}</li></h3>
+        <h3><li>Contact:{{patient.contact}}</li></h3>
+        <h3><li>Gender:{{patient.sex}}</li></h3>
+        <h3><li>Date:{{patient.date}}</li></h3>
+        <h3><li>Description:{{patient.description}}</li></h3>
+      </ul>
+      <hr/>
+      {% if request.user.is_doctor %}
+      <a href="{% url 'add_medicine' patient.id %}" class="btn btn-warning btn-lg ">Add Medicine</a>
+      <a href="{% url 'add_lab_test' patient.id %}" class="btn btn-info btn-lg">Add LabTest</a>
+      {% endif %}
+      </div>
+    </div>  
+  </div>
+</div>
+{% include 'partial/footer.html' %}
+{% endblock %}

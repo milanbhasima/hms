@@ -1,0 +1,22 @@
+{% extends 'master/base.html' %}
+{% block title %}Home | {{block.super}}{% endblock %}
+{% block content%}
+<!--header-->
+{% include 'partial/navbar.html' %}
+	<!-- end of logo and navigation --><!--end of header-->
+<!--slider area-->
+{% include 'partial/slider.html' %}	
+<!--end slider-->
+<!--content area-->
+{% include 'partial/content.html' %}
+<!--end content-->
+<!--service-->
+{% include 'partial/service.html' %}
+<!--end service-->
+<!--team-->
+{% include 'partial/contact.html'%}
+<!--end team-->
+<!--footer-->
+{% include 'partial/footer.html' %}
+<!--end footer-->
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+	<!--container-fluid-->
+	<div class="container-fluid top_bar">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3" >
+					<a href="#" data-toggle='tooltip' data-placement='bottom' title='facebook' class="social_icons"><i class='fa fa-facebook' style='font-size:18px; color:#fff;'></i></a>
+					<a href="#" data-toggle='tooltip' data-placement='bottom' title='twitter' class="social_icons"><i class='fa fa-twitter' style='font-size:18px; color:#fff;'></i></a>
+					<a href="#" data-toggle='tooltip' data-placement='bottom' title='google-plus' class="social_icons"><i class='fa fa-google-plus' style='font-size:18px; color:#fff;'></i></a>
+					<a href="#" data-toggle='tooltip' data-placement='bottom' title='instagram' class="social_icons"><i class='fa fa-instagram' style='font-size:18px; color:#fff;'></i></a>
+				</div>
+				<div class="col-sm-9 text-right contact_info" >
+					<span class='glyphicon glyphicon-user'></span>Welcome {{request.user}} ,
+					<span class='glyphicon glyphicon-envelope'></span>Abzhospital@gmail.com ,
+					<span class='glyphicon glyphicon-earphone'></span>+01-4462541
+				</div>
+			</div>
+		</div>	
+	</div>
+	 <!-- end of container fluid -->
+	<!--logo and navogation-->
+	<div class="container">
+	 	<div class="row">
+			<div class="col-sm-4">
+				<img src="{% static 'img/logo1.jpg' %}" alt="" style='height:120px'; 'width:120px'; 'margin-top:-10px'; >
+			</div>
+			<div class="col-sm-8 my_menu">
+				<nav class='navbar navbar-default'>
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle='collapse' data-target='#mynavbar'>
+							<span class='icon-bar'></span>
+							<span class='icon-bar'></span>
+							<span class='icon-bar'></span>
+						</button>
+					</div>
+					<div class="collapse navbar-collapse" id="mynavbar">
+						<ul class="nav navbar-nav pull-right ">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Services</a></li>
+							<li><a href="#">Contact Us</a></li>
+							{% if request.user.is_authenticated %}
+							<li><a href="{% url 'logout' %}">Log Out</a></li>
+							{% else %}
+							<li><a href="{% url 'login' %}">Log In</a></li>
+							{% endif %}
+							{% if request.user.is_authenticated and request.user.is_admin %}
+               				<li><a href="{% url 'register' %}">Register Staff</a></li>
+                			{% endif %}
+						</ul>
+					</div>
+				</nav>		
+			</div>
+		</div>
+	</div>
+	<!-- end of logo and navigation -->

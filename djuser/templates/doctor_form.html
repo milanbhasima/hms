@@ -1,0 +1,42 @@
+{% extends 'master/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Update Doctor | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="rectangle">
+  <h2 class="text-center heading">Doctor Dashboard</h2>
+</div>
+<div class="container-fluid body-section">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="list-group">
+                <a href="index.html" class="list-group-item active">
+                  <img src="{{instance.image.url}}"  class='img-circle' alt="admin image" style="height:150px; width:150px; background:red; !important "><br>
+                  <h4 class="text-center">My Accounts</h4>
+                </a>
+                <a href="{% url 'edit_doctor' %}" class="list-group-item">
+                  <span class="badge">12</span>
+                  Edit my Profile
+                </a>
+                <a href="{% url 'change_password' %}" class="list-group-item">
+                  <span class="badge">12</span>
+                  Change Password
+                </a>
+                <a href="{% url 'logout' %}" class="list-group-item">
+                  <span class="badge">12</span>
+                  Log Out
+                </a>
+            </div>
+        </div>
+        <div class="col-md-8">
+           <h1>Update <small>Doctor</small> </h1> <hr>
+           <form method="POST" enctype='multipart/form-data' action="{% url 'edit_doctor' %}">
+            {% csrf_token %}
+              {{ uform|crispy }}
+              {{ dform|crispy }}
+              <button type="submit" class="btn btn-primary" >Update</button> 
+           </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

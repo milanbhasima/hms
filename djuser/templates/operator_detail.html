@@ -1,0 +1,29 @@
+{% extends 'master/base.html' %}
+{% block title %}Admin Dashboard | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="container">
+  <h2>Operator Detail</h2>
+  <p>Personal  Info:</p> 
+  <div class="thumbnail">
+    <table class="table table-bordered">
+    <ul>
+        <h4> <li>Id:{{operator.user.id}}</li></h4>
+        <h4><li>Name:{{operator.user.name}}</li></h4>
+        <h4><li>Email:{{operator.user.email}}</li></h4>
+        <h4> <li>Id:{{operator.id}}</li></h4>
+        <h4><li>Contact:{{operator.contact}}</li></h4>
+        <h4><li>Age:{{operator.age}}</li></h4>
+        <h4><li>Qualification:{{operator.qualification}}</li></h4>
+        <h4><li>degree:{{operator.degree}}</li></h4>
+        <h4><li>Permanent_address:{{operator.permanent_address}}</li></h4>
+        <h4><li>Temporary_address:{{operator.temporary}}</li></h4>
+        <h4><li>Joined_date:{{operator.joined_date}}</li></h4>
+        <h4><li>Image{{operator.image}}</li></h4>
+    </ul>
+    </table>
+  </div>           
+</div>
+
+{% include 'partial/footer.html' %}
+{% endblock %}

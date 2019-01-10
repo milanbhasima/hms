@@ -1,0 +1,32 @@
+{% extends 'master/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Doctor Dashboard | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h2>Patients Detail</h2>
+      <p>Personal  Info:</p>  
+      <div class="thumbnail">
+      <ul>
+        <h3><li>Id={{patient.id}}</li></h3>
+        <h3><li>Name:{{patient.name}}</li></h3>
+        <h3><li>Address:{{patient.address}}</li></h3>
+        <h3><li>Contact:{{patient.contact}}</li></h3>
+        <h3><li>Gender:{{patient.sex}}</li></h3>
+        <h3><li>Date:{{patient.date}}</li></h3>
+        <h3><li>Description:{{patient.description}}</li></h3>
+      </ul>
+      <hr/>
+      <form method="POST" action="{% url 'add_medicine' id=patient.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" class="btn btn-success" value="Save"/>
+      </form>
+      </div>
+    </div>  
+  </div>
+</div>
+{% include 'partial/footer.html' %}
+{% endblock %}

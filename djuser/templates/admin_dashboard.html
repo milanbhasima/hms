@@ -1,0 +1,213 @@
+{% extends 'master/base.html' %}
+{% block title %}Admin Dashboard | {{block.super}}{% endblock %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="rectangle">
+	<h1 class="text-center heading">Admin Dashboard</h1>
+</div>
+
+<div class="container-fluid body-section">
+    <div class="row">
+        <div class="col-md-2" style=" padding:10px;">
+           	<div class="list-group">
+              	<a href="{% url 'admin_dashboard' %}" class="list-group-item">
+                  {% if instance.image %}
+                	<img src="{{instance.image.url}}"  class='img-circle' alt="admin image" style="height:150px; width:150px;"><br>
+                  {% endif %}
+                	<h4 class="text-center">{{request.user.name}}</h4>
+              	</a>
+              	<h5><a href="{% url 'edit_admin' %}" class="list-group-item">
+                	<i class="fa fa-edit" aria-hidden="true"></i> Edit my Profile
+              	</a></h5>
+              	<h5></h5><a href="{% url 'change_password' %}" class="list-group-item">
+                	<i class="fa fa-key"></i>
+                  Change Password
+              	</a></h5>
+                <h5><a href="{% url 'logout' %}" class="list-group-item">
+                 <i class="fa fa-sign-out"></i> Log Out
+                </a></h5>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                   <th>sr#</th>
+                   <th>Name</th>
+                   <th>Email</th>
+                   <th>d Id</th>
+                   <th>Contact</th>
+                   <th>Age</th>
+                   <th>Permanent_Address</th>
+                   <th>Qualification</th>
+                   <th>Degree</th>
+                   <th>Joined_Date</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for e in doctor %}
+              <tr>
+                <td>{{e.user.id}}</td>
+                <td><a href="#">{{e.user.name}}</a></td>
+                <td>{{e.user.email}}</td>
+                <td>{{e.id}}</td>
+                <td>{{e.contact}}</td>
+                <td>{{e.age}}</td>
+                <td>{{e.permanent_address}}</td>
+                <td>{{e.qualification}}</td>
+                <td>{{e.degree}}</td>
+                <td>{{e.joined_date}}</td>
+                <td><a href="{% url 'doctor_delete' e.user.id %}"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'doctor_detail' e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <a href="{% url 'all_doctor' %}" class="btn btn-primary">View all Doctors</a>
+            <hr>
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                   <th>sr#</th>
+                   <th>Name</th>
+                   <th>Email</th>
+                   <th>d Id</th>
+                   <th>Contact</th>
+                   <th>Age</th>
+                   <th>Permanent_Address</th>
+                   <th>Qualification</th>
+                   <th>Degree</th>
+                   <th>Joined_Date</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for e in medical %}
+              <tr>
+                <td>{{e.user.id}}</td>
+                <td><a href="#">{{e.user.name}}</a></td>
+                <td>{{e.user.email}}</td>
+                <td>{{e.id}}</td>
+                <td>{{e.contact}}</td>
+                <td>{{e.age}}</td>
+                <td>{{e.permanent_address}}</td>
+                <td>{{e.qualification}}</td>
+                <td>{{e.degree}}</td>
+                <td>{{e.joined_date}}</td>
+                <td><a href="{% url 'medical_delete' e.user.id %}"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'medical_detail' e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <a href="{% url 'all_medical' %}" class="btn btn-primary">View all Medicals</a>
+            <hr>
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                   <th>sr#</th>
+                   <th>Name</th>
+                   <th>Email</th>
+                   <th>d Id</th>
+                   <th>Contact</th>
+                   <th>Age</th>
+                   <th>Permanent_Address</th>
+                   <th>Qualification</th>
+                   <th>Degree</th>
+                   <th>Joined_Date</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for e in laboratorist %}
+              <tr>
+                <td>{{e.user.id}}</td>
+                <td><a href="#">{{e.user.name}}</a></td>
+                <td>{{e.user.email}}</td>
+                <td>{{e.id}}</td>
+                <td>{{e.contact}}</td>
+                <td>{{e.age}}</td>
+                <td>{{e.permanent_address}}</td>
+                <td>{{e.qualification}}</td>
+                <td>{{e.degree}}</td>
+                <td>{{e.joined_date}}</td>
+                <td><a href="{% url 'laboratorist_delete' e.user.id %}"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'laboratorist_detail' e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+             <a href="{% url 'all_laboratorist' %}" class="btn btn-primary">View all Laboratorists</a>
+            <hr>
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                   <th>sr#</th>
+                   <th>Name</th>
+                   <th>Email</th>
+                   <th>d Id</th>
+                   <th>Contact</th>
+                   <th>Age</th>
+                   <th>Permanent_Address</th>
+                   <th>Qualification</th>
+                   <th>Degree</th>
+                   <th>Joined_Date</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for e in operator %}
+              <tr>
+                <td>{{e.user.id}}</td>
+                <td><a href="#">{{e.user.name}}</a></td>
+                <td>{{e.user.email}}</td>
+                <td>{{e.id}}</td>
+                <td>{{e.contact}}</td>
+                <td>{{e.age}}</td>
+                <td>{{e.permanent_address}}</td>
+                <td>{{e.qualification}}</td>
+                <td>{{e.degree}}</td>
+                <td>{{e.joined_date}}</td>
+                <td><a href="{% url 'operator_delete' e.user.id %}"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'operator_detail' e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <a href="{% url 'all_operator' %}" class="btn btn-primary">View all Operators</a>
+            <hr>
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                   <th>Id</th>
+                   <th>Name</th>
+                   <th>Age</th>
+                   <th>Address</th>
+                   <th>Sex</th>
+                   <th>Contact</th>
+                   <th>description</th>
+                   <th>Date</th>
+                   <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for e in patient %}
+              <tr>
+                <td>{{e.id}}</td>
+                <td>{{e.name}}</td>
+                <td>{{e.age}}</td>
+                <td>{{e.address}}</td>
+                <td>{{e.sex}}</td>
+                <td>{{e.contact}}</td>
+                <td>{{e.description}}</td>
+                <td>{{e.date}}</td>
+                <td><a href="{% url 'patient_delete' e.id %}"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'patient_detail' e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+              
+            </table>
+            <a href="{% url 'all_patient' %}" class="btn btn-primary">View all Patients</a>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
