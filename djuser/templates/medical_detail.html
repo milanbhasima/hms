@@ -2,27 +2,34 @@
 {% block title %}Admin Dashboard | {{block.super}}{% endblock %}
 {% block content %}
 {% include 'partial/navbar.html' %}
+<style type="text/css">
+    body{
+        background-color: aliceblue;
+    }
+</style>
 <div class="container">
+<div class="col-sm-8 col-sm-offset-4">
   <h2>Medical Detail</h2>
   <p>Personal  Info:</p> 
-  <div class="thumbnail">
     <table class="table table-bordered">
-    <ul>
+    <ul style="list-style:None;">
         <h4> <li>Id:{{medical.user.id}}</li></h4>
         <h4><li>Name:{{medical.user.name}}</li></h4>
         <h4><li>Email:{{medical.user.email}}</li></h4>
-        <h4> <li>Id:{{medical.id}}</li></h4>
+        <!-- <h4> <li>Id:{{medical.id}}</li></h4> -->
         <h4><li>Contact:{{medical.contact}}</li></h4>
         <h4><li>Age:{{medical.age}}</li></h4>
         <h4><li>Qualification:{{medical.qualification}}</li></h4>
         <h4><li>degree:{{medical.degree}}</li></h4>
         <h4><li>Permanent_address:{{medical.permanent_address}}</li></h4>
-        <h4><li>Temporary_address:{{medical.temporary}}</li></h4>
-        <h4><li>Joined_date:{{medical.joined_date}}</li></h4>
-        <h4><li>Image{{medical.image}}</li></h4>
+        <h4><li>Temporary_address:{{medical.temporary_address}}</li></h4>
+        <h4><li>Joined_date:{{medical.user.joined_date}}</li></h4>
+        {% if medical.image %}
+        <h4><li>Image{{medical.image.url}}</li></h4>
+        {% endif %}
     </ul>
     </table>
-  </div>           
+</div>           
 </div>
 
 {% include 'partial/footer.html' %}

@@ -59,13 +59,15 @@ body p{
 }
 /*admin-dashboard*/
 .rectangle{
-	height: 140px;
+	height: 180px;
 	background: radial-gradient(circle, #009cde, #003087);
 	margin-bottom: 25px;
+	margin-top: -18px;
 }
 .rectangle .heading{
-	padding: 50px;
+	padding: 70px;
 	color: #ffffff;
+	text-shadow: 4px 4px 3px black;
 }
 .title{
 	padding: 50px;

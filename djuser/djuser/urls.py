@@ -18,16 +18,14 @@ from django.contrib import admin
 from accounts.views import home_view
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import pdf
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^$',home_view, name='home'),
-    # url(r'^admins/', include('admins.urls')),
-    # url(r'^doctors/', include('doctors.urls')),
-    # url(r'^medicals/', include('medicals.urls')),
-    # url(r'^laboratorists/', include('laboratorists.urls')),
-    # url(r'^operatorss/', include('operators.urls')),
+    url(r'^pdf/(?P<id>\d+)/$', pdf, name='pdf'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

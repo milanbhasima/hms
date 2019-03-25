@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url,include
 from .views import register
 from .views import (
     login_view, 
@@ -9,14 +9,22 @@ from .views import (
     register_patient,add_medicine,add_lab_test,edit_medical,doctor_medicine_detail,
     edit_laboratorist,doctor_test_detail,change_password,all_doctor,all_medical,all_laboratorist,
     all_operator,all_patient,doctor_detail,medical_detail,laboratorist_detail,operator_detail,
-    doctor_delete,medical_delete,laboratorist_delete,operator_delete,patient_delete
+    doctor_delete,medical_delete,laboratorist_delete,operator_delete,patient_delete,
+    lab_bill,medicine_bill,check_patient,patient_report
     )
-
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 	url(r'^register/$',register, name='register'),
     url(r'^login/$',login_view, name='login'),
-    url(r'^logout/$',logout_view, name='logout'),
+    url(r'^logout/$',logout_view, name='logout'),  
+
+    url(r'^password_reset/$', auth_views.password_reset, name='password_reset'),
+    url(r'^password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+
 
     url(r'^admin_dashboard/$',admin_dashboard, name='admin_dashboard'),
     url(r'^edit_admin/$',edit_admin, name='edit_admin'),
@@ -43,6 +51,7 @@ urlpatterns = [
 
     url(r'^doctor_dashboard/$',doctor_dashboard, name='doctor_dashboard'),
     url(r'^edit_doctor/$',edit_doctor, name='edit_doctor'),
+    url(r'^check_patient/$',check_patient, name='check_patient'),
 
     url(r'^(?P<id>\d+)/patient_detail/add_medicine/$',add_medicine, name='add_medicine'),
     url(r'^(?P<id>\d+)/patient_detail/add_lab_test/$',add_lab_test, name='add_lab_test'),
@@ -54,9 +63,14 @@ urlpatterns = [
     url(r'^medical_dashboard/$',medical_dashboard, name='medical_dashboard'),
     url(r'^edit_medical/$',edit_medical, name='edit_medical'),
     url(r'^(?P<id>\d+)/doctor_medicine_detail/$',doctor_medicine_detail, name='doctor_medicine_detail'),
+    url(r'^(?P<id>\d+)/doctor_test_detail/$',doctor_test_detail, name='doctor_test_detail'),
 
     url(r'^laboratorist_dashboard/$',laboratorist_dashboard, name='laboratorist_dashboard'),
     url(r'^edit_laboratorist/$',edit_laboratorist, name='edit_laboratorist'),
-    url(r'^(?P<id>\d+)/doctor_test_detail/$',doctor_test_detail, name='doctor_test_detail'),
+
+    url(r'^(?P<id>\d+)/lab_bill/$',lab_bill, name='lab_bill'),
+    url(r'^(?P<id>\d+)/medicine_bill/$',medicine_bill, name='medicine_bill'),
+   
+   url(r'^patient_report/$',patient_report, name='patient_report'),
     
 ] 

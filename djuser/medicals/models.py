@@ -12,7 +12,6 @@ class Medical(models.Model):
 	qualification = models.CharField(max_length=120)
 	degree = models.CharField(max_length=120)
 	image= models.FileField(upload_to='profile',null=True,blank=True)
-	joined_date = models.DateField(auto_now_add=True)
 
 	def __str__(self):
 		return self.user.name

@@ -3,11 +3,11 @@
 {% block content %}
 {% include 'partial/navbar.html' %}
 <div class="container">
+<div class="col-sm-8 col-sm-offset-4">
   <h2>Operator Detail</h2>
   <p>Personal  Info:</p> 
-  <div class="thumbnail">
     <table class="table table-bordered">
-    <ul>
+    <ul style="list-style:None;">
         <h4> <li>Id:{{operator.user.id}}</li></h4>
         <h4><li>Name:{{operator.user.name}}</li></h4>
         <h4><li>Email:{{operator.user.email}}</li></h4>
@@ -17,12 +17,12 @@
         <h4><li>Qualification:{{operator.qualification}}</li></h4>
         <h4><li>degree:{{operator.degree}}</li></h4>
         <h4><li>Permanent_address:{{operator.permanent_address}}</li></h4>
-        <h4><li>Temporary_address:{{operator.temporary}}</li></h4>
-        <h4><li>Joined_date:{{operator.joined_date}}</li></h4>
+        <h4><li>Temporary_address:{{operator.temporary_address}}</li></h4>
+        <h4><li>Joined_date:{{operator.user.joined_date}}</li></h4>
         <h4><li>Image{{operator.image}}</li></h4>
     </ul>
     </table>
-  </div>           
+</div>          
 </div>
 
 {% include 'partial/footer.html' %}

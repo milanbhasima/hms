@@ -14,14 +14,17 @@
         {% if instance.image %}
         <img src="{{instance.image.url}}"  class='img-circle' alt="admin image" style="height:150px; width:150px; background:red; !important "><br>
         {% endif %}
-        <h4 class="text-center">My Accounts</h4>
+        <h4 class="text-center">{{request.user.name}}</h4>
       </a>
       <a href="{% url 'edit_laboratorist' %}" class="list-group-item">
-       Edit my Profile
+       <i class="fa fa-edit" aria-hidden="true"></i>  Edit my Profile
      </a>
-     <a href="#" class="list-group-item">
-       Change Password
+     <a href="{% url 'change_password' %}" class="list-group-item">
+       <i class="fa fa-key"></i> Change Password
      </a>
+     <a href="{% url 'logout' %}" class="list-group-item">
+      <i class="fa fa-sign-out"></i> Log Out
+      </a>
    </div>
  </div>
 

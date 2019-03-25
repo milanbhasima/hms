@@ -22,12 +22,12 @@ class UserLoginForm(forms.Form):
         #     raise forms.ValidationError('invalid credentials')
         user_obj=User.objects.filter(email=email).first()
         if not user_obj:
-            raise forms.ValidationError('invalid Email')
+            raise forms.ValidationError('Invalid Email')
         else:
             if not user_obj.check_password(password):
-                raise forms.ValidationError('invalid Password')
+                raise forms.ValidationError('Invalid Password')
         
-        # return super(UserLoginForm,self).clean(*args, **kwargs)
+        return super(UserLoginForm,self).clean(*args, **kwargs)
 
     # def clean_username(self):
     #     name=self.cleaned_data.get('name')

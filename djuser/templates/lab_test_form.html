@@ -10,13 +10,13 @@
       <p>Personal  Info:</p>  
       <div class="thumbnail">
       <ul>
-        <h3><li>Id={{patient.id}}</li></h3>
-        <h3><li>Name:{{patient.name}}</li></h3>
-        <h3><li>Address:{{patient.address}}</li></h3>
-        <h3><li>Contact:{{patient.contact}}</li></h3>
-        <h3><li>Gender:{{patient.sex}}</li></h3>
-        <h3><li>Date:{{patient.date}}</li></h3>
-        <h3><li>Description:{{patient.description}}</li></h3>
+        <h5><li>Id={{patient.id}}</li></h5>
+        <h5><li>Name:{{patient.name}}</li></h5>
+        <h5><li>Address:{{patient.address}}</li></h5>
+        <h5><li>Contact:{{patient.contact}}</li></h5>
+        <h5><li>Gender:{{patient.sex}}</li></h5>
+        <h5><li>Date:{{patient.date}}</li></h5>
+        <h5><li>Description:{{patient.description}}</li></h5>
       </ul>
       <hr/>
       <form method="POST" action="{% url 'add_lab_test' id=patient.id %}" enctype="multipart/form-data">

@@ -2,13 +2,18 @@
 {% load staticfiles %}
 {% block title %}Register Here | {{block.super}}{% endblock %}
 {% block content %}
-	<!-- <h1>Register Now!</h1>
-		<form method="POST" action="">
-			{% csrf_token %}
-			{{form.as_p}}
-			<input type="submit" class="btn btn-primary" value="Submit"/>
-		</form> -->
-		<!-- Page Heading -->
+  <style type="text/css">
+  body{
+    background-image:url({% static "img/11.jpg" %});
+  }
+  .box{
+    opacity: 0.8;
+    filter: alpha(opacity=30);
+    background-color: #eee;
+  }
+  
+  </style>
+
   <div class="register_body">
     <!-- Page Heading / End -->
 
@@ -26,6 +31,7 @@
             {% endif %} -->
             <div class="spacer-lg visible-sm visible-xs"></div>
             <div class="box">
+            <h2 class="text-center">Register Here</h2>
               <form action="" method="POST" role="form">
                 {{form.as_p}}
                 {% csrf_token %}

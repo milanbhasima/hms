@@ -14,25 +14,24 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            name=name,
+            name=name
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, name, password):
-        """
-        Creates and saves a staff user with the given email and password.
-        """
-        user = self.create_user(
-            email,
-            name,
-            password=password,
-        )
-        user.is_staff = True
-        user.save(using=self._db)
-        return user
+    # def create_staffuser(self, email, name, password):
+    #     """
+    #     Creates and saves a staff user with the given email and password.
+    #     """
+    #     user = self.create_user(
+    #         email,
+    #         name,
+    #         password=password,
+    #     )
+    #     user.is_staff = True
+    #     user.save(using=self._db)
+    #     return user
 
     def create_superuser(self, email, name, password):
         """
@@ -62,7 +61,9 @@ class User(AbstractBaseUser):
     is_doctor = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False) # a admin user; non super-user
-    is_admin = models.BooleanField(default=False) # a superuser
+    is_admin = models.BooleanField(default=False)
+    joined_date = models.DateTimeField(auto_now_add=True)
+     # a superuser
     # notice the absence of a "Password field", that's built in.
     objects = UserManager()
 

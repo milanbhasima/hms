@@ -2,27 +2,34 @@
 {% block title %}Admin Dashboard | {{block.super}}{% endblock %}
 {% block content %}
 {% include 'partial/navbar.html' %}
+<style type="text/css">
+    body{
+        background-color: aliceblue;
+    }
+</style>
 <div class="container">
+<div class="col-sm-8 col-sm-offset-4">
   <h2>Doctor Detail</h2>
   <p>Personal  Info:</p> 
-  <div class="thumbnail">
     <table class="table table-bordered">
-    <ul>
+    <ul style="list-style:None;">
         <h4> <li>Id:{{doctor.user.id}}</li></h4>
         <h4><li>Name:{{doctor.user.name}}</li></h4>
         <h4><li>Email:{{doctor.user.email}}</li></h4>
-        <h4> <li>Id:{{doctor.id}}</li></h4>
+        <!-- <h4> <li>Id:{{doctor.id}}</li></h4> -->
         <h4><li>Contact:{{doctor.contact}}</li></h4>
         <h4><li>Age:{{doctor.age}}</li></h4>
         <h4><li>Qualification:{{doctor.qualification}}</li></h4>
         <h4><li>degree:{{doctor.degree}}</li></h4>
         <h4><li>Permanent_address:{{doctor.permanent_address}}</li></h4>
-        <h4><li>Temporary_address:{{doctor.temporary}}</li></h4>
-        <h4><li>Joined_date:{{doctor.joined_date}}</li></h4>
+        <h4><li>Temporary_address:{{doctor.temporary_address}}</li></h4>
+        <h4><li>Joined_date:{{doctor.user.joined_date}}</li></h4>
+        {% if doctor.image %}
         <h4><li>Image{{doctor.image}}</li></h4>
+        {% endif %}
     </ul>
     </table>
-  </div>           
+</div>           
 </div>
 
 {% include 'partial/footer.html' %}

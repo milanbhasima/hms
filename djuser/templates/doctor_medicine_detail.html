@@ -5,7 +5,7 @@
 {% include 'partial/navbar.html' %}
 <div class="container">
   <div class="row">
-    <div class="col-sm-5 ">
+    <div class="col-sm-3 ">
       <h2>Patients Detail</h2>
       <p>Personal  Info:</p>  
       <div class="thumbnail">
@@ -19,8 +19,8 @@
           <h5><li>Description:{{patient.description}}</li></h5>
         </ul>
       </div>
-
-      <h2>Medicine Recommended:</h2>
+    </div>
+      <!-- <h2>Medicine Recommended:</h2>
       {% for doc in doctor %}
       <div class="thumbnail">
         <ul>
@@ -33,14 +33,115 @@
       {% endfor %}
     </div> 
     <div class="col-sm-7">
-     <form method="POST" enctype='multipart/form-data' action="">
+    <form method="POST" enctype='multipart/form-data' action="">
       {% csrf_token %}
       {{ form |crispy }}
       <button type="submit" class="btn btn-primary" >Save</button> 
-    </form> 
+    </form> --> 
+    <div class="col-sm-9">
+      <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><h4>Patient Medicine</h4></a></li>
+          {% if request.user.is_laboratorist %}
+          <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><h4>Patient Lab Test</h4></a></li>
+          {% endif %}
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="home">
+           <table class="table table-hover table-striped table-bordered ">
+            <thead>
+              <tr>
+                <!-- <th>Patient_Id</th> -->
+                <th>Id</th>
+                <th>Date</th>
+                <th>Medicine_Name</th>
+                <th>Comment</th>
+                <th>Follow_Up_Date</th>
+                <th>Refered_By(Doctor)</th>
+                <th>Is_Purchased</th> 
+                {% if request.user.is_medical %}
+                 <th>Purchase Now</th>                
+                <th>Amount</th>
+                <th>Action</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody>
+             {% for e in dm %}
+             <form method="POST" action="#">
+              {% csrf_token %}
+              <input type="hidden" name="id" value="{{e.id}}">
+              <tr>
+               <!--  <td>{{e.patient.id}}</td> -->
+               <td>{{e.id}}</td>
+               <td>{{e.date}}</td>
+               <td>{{e.medicine_name}}</td>
+               <td>{{e.comment}}</td>
+               <td>{{e.follow_up_date}}</td>
+               <td>{{e.refered_by}}</td>  
+               <td>
+                {% if e.is_purchased %}
+                <input type="checkbox" name="is_purchased" checked>
+                {% else %}
+                <input type="checkbox" name="is_purchased" value="">
+                {% endif %}
+              </td>
+              <td>
+                {% if e.purchase_now %}
+                <input type="checkbox" name="purchase_now" value="{{e.purchase_now}}" checked>
+                {% else %}
+                <!-- <input type="checkbox" name="purchase_now" value=""> -->
+                {{form.purchase_now}}
+                {% endif %}
+              </td>
+              <td>
+                <input type="text" value="{{e.amount}}" name="amount">
+              </td>
+              <td><input type="submit" class="btn btn-primary" value="Save"></td>
+            </tr>
+          </form>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="profile">
+      <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Test_Name</th>
+            <th>Result</th>
+            <th>Is_Sampled</th>
+            {% if request.user.is_laboratorist %}
+            <th>Action</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in doctors %}
+          <tr>
+            <td>{{e.date}}</td>
+            <td><a href="#">{{e.test_name}}</a></td>
+            <td>{{e.result}}</td>
+            {% if request.user.is_laboratorist %}
+            <td>{{forms.is_sampled}}</td>
+            <td><a href="#" class="btn btn-success">save</a></td>
+            {% else %}
+            <td>{{e.is_sampled}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+ <a href="{% url 'medicine_bill' patient.id %}" class="btn btn-warning">Go to Medicine Billing</a>
+</div>
+</div>
 
 </div>
-</div>
-{% include 'partial/footer.html' %}
 {% endblock %}

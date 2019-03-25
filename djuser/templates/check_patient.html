@@ -1,0 +1,42 @@
+{% extends 'master/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="row">
+    <div class="container">
+      <h2 class="text-center" style="font-weight:bold">Patient Lists</h2>
+      <br>
+      <div class="col-sm-12">
+
+       <table class="table table-hover table-striped table-bordered">
+        <thead>
+          <tr>
+          	<th>date</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Contact</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in patient %}
+          <tr>
+         	<td>{{e.patient.date}}</td>
+            <td>{{e.patient.id}}</td>
+            <td>{{e.patient.name}}</a></td>
+            <td>{{e.patient.address}}</td>
+            <td>{{e.patient.age}}</td>
+            <td>{{e.patient.sex}}</td>
+            <td>{{e.patient.contact}}</td>
+            <td>{{e.patient.description}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

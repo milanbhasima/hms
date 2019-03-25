@@ -1,28 +1,34 @@
 {% extends 'master/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/staff.css' %}">
 {% block title %}Admin Dashboard | {{block.super}}{% endblock %}
 {% block content %}
 {% include 'partial/navbar.html' %}
 <div class="container">
-  <h2>Laboratorist Detail</h2>
-  <p>Personal  Info:</p> 
-  <div class="thumbnail">
-    <table class="table table-bordered">
-    <ul>
-        <h4> <li>Id:{{laboratorist.user.id}}</li></h4>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-4">
+      <h2>Laboratorist Detail</h2> 
+      <p>Personal  Info:</p> 
+     <table class="table table-bordered">
+    <ul style="list-style:None;">
+        <h4><li>Id:{{laboratorist.user.id}}</li></h4>
         <h4><li>Name:{{laboratorist.user.name}}</li></h4>
         <h4><li>Email:{{laboratorist.user.email}}</li></h4>
-        <h4> <li>Id:{{laboratorist.id}}</li></h4>
+        <!-- <h4> <li>Id:{{laboratorist.id}}</li></h4> -->
         <h4><li>Contact:{{laboratorist.contact}}</li></h4>
         <h4><li>Age:{{laboratorist.age}}</li></h4>
         <h4><li>Qualification:{{laboratorist.qualification}}</li></h4>
         <h4><li>degree:{{laboratorist.degree}}</li></h4>
         <h4><li>Permanent_address:{{laboratorist.permanent_address}}</li></h4>
-        <h4><li>Temporary_address:{{laboratorist.temporary}}</li></h4>
-        <h4><li>Joined_date:{{laboratorist.joined_date}}</li></h4>
+        <h4><li>Temporary_address:{{laboratorist.temporary_address}}</li></h4>
+        <h4><li>Joined_date:{{laboratorist.user.joined_date}}</li></h4>
+        {% if laboratorist.image %}
         <h4><li>Image{{laboratorist.image}}</li></h4>
-    </ul>
+        {% endif %}
+    </ul> 
     </table>
-  </div>           
+    </div>
+</div>           
 </div>
 
 {% include 'partial/footer.html' %}

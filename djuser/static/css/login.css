@@ -1,8 +1,12 @@
 .box{
-	padding: 100px;
+	padding: 100px 80px;
 	width: 550px;
-	/*background-color: #eeeeee;*/
+	background-color: aliceblue;
 	margin-bottom: 30px;
-	opacity: 1;
-
+	margin-top: 50px;
+	opacity: 0.8;
 }
+
+/*.login_body{
+	border: 2px solid red;
+}*/

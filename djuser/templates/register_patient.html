@@ -8,31 +8,29 @@
 </div>
 <div class="container-fluid body-section">
     <div class="row">
-        <div class="col-md-4">
-            <div class="list-group">
-                <a href="index.html" class="list-group-item active">
-                  <span class="badge"></span>
-                  My Accounts
-                </a>
-                <a href="{% url 'edit_operator' %}" class="list-group-item">
-                  <span class="badge">12</span>
-                  Edit my Profile
-                </a>
-                 <a href="{% url 'register_patient' %}" class="list-group-item">
-                  <span class="badge">12</span>
-                  Register Patient
-                </a>
-                <a href="#" class="list-group-item">
-                  <span class="badge">12</span>
-                  Change Password
-                </a>
-                <a href="{% url 'logout' %}" class="list-group-item">
-                  <span class="badge">12</span>
-                  Log Out
-                </a>
-            </div>
-        </div>
-        <div class="col-md-8">
+      <div class="col-md-2">
+      <div class="list-group">
+       <a href="{% url 'doctor_dashboard' %}" class="list-group-item">
+        {% if instance.image %}
+        <img src="{{instance.image.url}}"  class='img-circle' alt="admin image" style="height:150px; width:150px;"><br>
+        {% endif %}
+        <h4 class="text-center">{{request.user.name}}</h4>
+      </a>
+      <a href="{% url 'edit_operator' %}" class="list-group-item">
+       <i class="fa fa-edit" aria-hidden="true"></i> Edit my Profile
+     </a>
+     <a href="{% url 'change_password' %}" class="list-group-item">
+       <i class="fa fa-key"></i> Change Password
+     </a>
+      <a href="{% url 'logout' %}" class="list-group-item">
+      <i class="fa fa-sign-out"></i> Log Out
+    </a>
+     <a href="{% url 'check_patient' %}" class="list-group-item">
+       <i class="fa fa-eye"></i> View Checked Patient
+     </a>
+   </div>
+ </div>
+        <div class="col-md-10">
            <h1>Register <small>Patient</small> </h1> <hr>
            <form method="POST" enctype='multipart/form-data' action="{% url 'register_patient' %}">
             {% csrf_token %}

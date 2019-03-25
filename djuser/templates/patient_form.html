@@ -1,0 +1,22 @@
+{% extends 'master/base.html' %}
+{% block content %}
+{% include 'partial/navbar.html' %}
+<div class="row ">
+<div class="col-sm-8 col-sm-offset-4">
+<h2>Enter Your ID:</h2>
+<form class='form' method="GET"  action="{% url 'patient_report' %}"  style="margin-top:25px;">
+`	<div class="col-sm-4">
+	<input class='form-control' type="text" name='q' placeholder="Search Patient's" value="{{request.GET.q}}" />
+	</div>
+	
+	<input type="submit" class='btn btn-success' value="Download"/>
+</form>
+</div>
+</div>
+<br>
+<br>
+<br>
+<div class="jumbotron">
+	<h2 class="text-center">{{report}}</h2>
+</div>
+{% endblock %}

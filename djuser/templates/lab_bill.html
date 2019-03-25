@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-compatible" content="IE-edge">
+  <meta name="viewport" content="width-device-width">
+  <title>{% block title %}Abz hospital{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <style type="text/css">
+  .container{
+    border: 2px solid gray;
+  }
+  li{
+    list-style: none;
+  }
+  </style>
+  <body>
+  <div class="container">
+    <h1 class="text-center">Python Django Hospital</h1>
+    <h3 class="text-center">Thamel,Ktm</h3>
+    <h5 class="text-center">Contact:01442245</h5>
+  </div>
+  <div class="container">  
+    <ul>
+    <h3>Lab Billing Report:</h3>
+     <li>
+        <h5>Patient_Id: {{patient.id}}</h5>
+        <h5>Name: {{patient.name}}</h5>
+        <h5>Address: {{patient.address}}</h5>
+        <h5>Age: {{patient.age}}</h5>
+        <h5>Sex: {{patient.sex}}</h5>
+        <h5>Contact: {{patient.contact}}</h5>
+        <h5>Description: {{patient.description}}</h5>
+        <h5>Date: {{patient.date}}</h5>
+      </li>
+      <table class="table table-hover table-striped table-bordered">
+            <h1 class="text-center">Invoice</h1>
+              <thead>
+                <tr>
+                 <th>Test_Id</th>
+                 <th>Date</th>
+                 <th>Test_Name</th>
+                 <th>Result</th>
+                 <th>Amount</th>
+               </tr>
+             </thead>
+             <tbody>
+              {% for e in dt %}
+                <tr>
+                  <td>{{e.id}}</td>
+                  <td>{{e.date}}</td>
+                  <td>{{e.test_name}}</td>
+                  <td>{{e.result}}</td>
+                  <td>{{e.amount}}</td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total:{{total_prices}} </td>
+              </tr>
+            </tbody>
+      </table>
+    </ul>
+  </div>
+  </body>
+  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+ 
+  </body>
+</html>

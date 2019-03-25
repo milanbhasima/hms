@@ -1,10 +1,15 @@
 {% extends 'master/base.html' %}
 {% load staticfiles %}
 {% block content %}
+<style type="text/css">
+  body{
+    background-color: aliceblue;
+  }
+</style>
 <div class="row">
     <div class="container">
-      <h2 class="text-center">Patient Lists</h2>
-      <hr>
+      <h2 class="text-center" style="font-weight:bold;">Patient Lists</h2>
+      <br>
       <div class="col-sm-12">
 
        <table class="table table-hover table-striped table-bordered">
@@ -16,7 +21,6 @@
             <th>Age</th>
             <th>Sex</th>
             <th>Contact</th>
-            <th>Degree</th>
             <th>Description</th>
             <th>Action</th>
           </tr>
@@ -25,14 +29,13 @@
           {% for e in patient %}
           <tr>
             <td>{{e.id}}</td>
-            <td><a href="#">{{e.name}}</a></td>
+            <td>{{e.name}}</td>
             <td>{{e.address}}</td>
             <td>{{e.age}}</td>
             <td>{{e.sex}}</td>
             <td>{{e.contact}}</td>
-            <td>{{e.degree}}</td>
             <td>{{e.description}}</td>
-            <td><a href="#"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="#"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
+            <td><a href="#"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></a> | <a href="{% url 'patient_detail' id=e.id %}"><i class="fa fa-eye fa-1x" aria-hidden="true"></i></a></td>
           </tr>
           {% endfor %}
         </tbody>

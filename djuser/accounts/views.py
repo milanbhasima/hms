@@ -6,6 +6,12 @@ from django.db.models import Q
 from .forms import UserCreationForm,UserLoginForm,UserChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from djuser.utils import render_to_pdf
+from djuser.forms import ContactForm
+from django.conf import settings
+from django.core.mail import send_mail
+from datetime import date
 
 from accounts.models import User
 
@@ -28,16 +34,10 @@ from patients.models import Patient
 from patients.forms import PatientForm
 
 from medicines.models import Medicine
-from medicines.forms import MedicineForm
+from medicines.forms import MedicineForm,MedicinesForm
 
 from lab_tests.models import LabTest
 from lab_tests.forms import LabTestForm
-
-from medical_medicines.models import MedicalMedicine
-from medical_medicines.forms import MedicalMedicineForm
-
-from laboratorist_labs.models import LaboratoristLab
-from laboratorist_labs.forms import LaboratoristLabForm
 
 User=get_user_model()
 # Create your views here.
@@ -46,6 +46,20 @@ def register(request, *args, **kwargs):
 	if (request.user.is_active and request.user.is_admin):
 		form = UserCreationForm(request.POST or None)
 		if form.is_valid():
+			name=form.cleaned_data.get('name')
+			email=form.cleaned_data.get('email')
+			password=form.cleaned_data.get('password')
+			subject='User Password'
+			from_email=settings.EMAIL_HOST_USER
+			to_email= email
+			your_message="%s : Your Password is (%s) via %s"%(name, password, email)
+			send_mail(
+				subject,
+				your_message,
+				from_email,
+				[to_email,],
+				fail_silently=False
+				)
 			form.save()
 			
 			latest_id=User.objects.latest('id')
@@ -83,7 +97,7 @@ def login_view(request, *args, **kwargs):
 	form = UserLoginForm(request.POST or None)
 	if form.is_valid():
 		user_obj = User.objects.get(email__iexact = form.cleaned_data.get('email'))
-		login(request, user_obj)
+		login(request, user_obj, backend='django.contrib.auth.backends.ModelBackend')
 		if request.user.is_doctor:
 			return redirect("doctor_dashboard")
 		elif request.user.is_medical:
@@ -104,7 +118,29 @@ def logout_view(request):
 	return HttpResponseRedirect('/')
 
 def home_view(request):
-	return render(request,'index.html',{})
+	form=ContactForm(request.POST or None)
+	if form.is_valid():
+		# for key,value in form.cleaned_data.items():
+		# 	print (key,value)
+		name=form.cleaned_data.get('name')
+		email=form.cleaned_data.get('email')
+		contact=form.cleaned_data.get('contact')
+		comment=form.cleaned_data.get('comment')
+		subject='contact form'
+		from_email=settings.EMAIL_HOST_USER
+		to_email= from_email
+		contact_message="%s : %s via %s"%(name, comment, email)
+		send_mail(
+			subject,
+			contact_message,
+			from_email,
+			[to_email,],
+			fail_silently=False
+			)
+	context={
+		'form':form,
+	}
+	return render(request,'index.html',context)
 
 @login_required(login_url='/accounts/login/')
 def admin_dashboard(request):
@@ -116,11 +152,11 @@ def admin_dashboard(request):
 				Q(id__iexact=query)
 				).distinct()
 		context_dict={
-			'doctor':Doctor.objects.all(),
-			'medical':Medical.objects.all(),
-			'laboratorist':Laboratorist.objects.all(),
-			'operator':Operator.objects.all(),
-			'patient':Patient.objects.all(),
+			'doctor':Doctor.objects.all()[:2],
+			'medical':Medical.objects.all()[:2],
+			'laboratorist':Laboratorist.objects.all()[:2],
+			'operator':Operator.objects.all()[:2],
+			'patient':Patient.objects.all()[:2],
 			'instance':Admin.objects.get(user_id=request.user.id),
 		}
 		return render(request,'admin_dashboard.html',context_dict)
@@ -153,12 +189,30 @@ def change_password(request):
 		raise Http404
 	form=PasswordChangeForm(data=request.POST or None,user=request.user)
 	instance=User.objects.get(id=request.user.id)
-	instance1=Admin.objects.get(user=instance.id) 
+	if request.user.is_admin:
+		instance1=Admin.objects.get(user=instance.id) 
+	elif request.user.is_doctor:
+		instance1=Doctor.objects.get(user=instance.id)
+	elif request.user.is_medical:
+		instance1=Medical.objects.get(user=instance.id)
+	elif request.user.is_operator:
+		instance1=Operator.objects.get(user=instance.id)
+	elif request.user.is_laboratorist:
+		instance1=Laboratorist.objects.get(user=instance.id) 
 	if form.is_valid():
 		form.save()
 		# update_session_auth_hash(request,form.user)
 		messages.success(request,'Congratulation! you have successfully updated password')
-		return redirect('admin_dashboard')
+		if request.user.is_admin:
+			return redirect('admin_dashboard')
+		elif request.user.is_doctor:
+			return redirect('doctor_dashboard')
+		elif request.user.is_medical:
+			return redirect('medical_dashboard')
+		elif request.user.is_operator:
+			return redirect('operator_dashboard')
+		elif request.user.is_laboratorist:
+			return redirect('laboratorist_dashboard')
 	context_dict={                       
 		'form':form,
 		'instance':instance1,
@@ -252,8 +306,14 @@ def patient_detail(request,id=None):
 	# if not request.user.is_admin:
 	# 	raise Http404
 	instance=Patient.objects.get(id=id)
+	instance1=Medicine.objects.filter(patient_id=instance.id).order_by('-date')
+	instance2=LabTest.objects.filter(patient_id=instance.id).order_by('date')
+	# form=MedicinesForm(request.POST or None)
 	context_dict={
 		'patient':instance,
+		'doctor':instance1,
+		'doctors':instance2,
+		# 'form':form,
 	}
 	return render(request,'patient_detail.html', context_dict)
 
@@ -347,18 +407,10 @@ def edit_doctor(request):
 	context_dict={                       
 		'uform':uform,
 		'dform':dform,
+		'instance':Doctor.objects.get(user_id=request.user.id),
 		}
 	return render(request,'doctor_form.html',context_dict)
 
-# @login_required(login_url='/accounts/login/')
-# def patient_detail(request,id=None):
-# 	if not request.user.is_doctor:
-# 		raise Http404
-# 	instance=get_object_or_404(Patient,id=id)
-# 	context_dict={
-# 		'patient':instance,
-# 	}
-# 	return render(request,'patient_detail.html', context_dict)
 
 @login_required(login_url='/accounts/login/')
 def add_medicine(request,id=None):
@@ -366,10 +418,6 @@ def add_medicine(request,id=None):
 		raise Http404
 	form=MedicineForm(request.POST or None)
 	instance=get_object_or_404(Patient,id=id)
-	# instance1=get_object_or_404(User,id=request.user.id)
-	# instance2=get_object_or_404(Doctor,user=instance1.id)
-	# instance1=User.objects.get(id=request.user.id)
-	# instance2=Doctor.objects.get(user=instance1.id)
 	context_dict={
 		'form':form,
 		'patient':instance,
@@ -381,7 +429,7 @@ def add_medicine(request,id=None):
 		medicine.refered_by=instance1
 		medicine.patient_id=instance.id
 		medicine.save()
-		return redirect('doctor_dashboard')
+		return redirect('patient_detail',id=id) 
 	return render(request,'medicine_form.html',context_dict)
 
 @login_required(login_url='/accounts/login/')
@@ -400,8 +448,8 @@ def add_lab_test(request,id=None):
 		labtest = form.save(commit=False)
 		labtest.patient_id=instance.id
 		labtest.refered_by_id=instance2.id
-		labTest.save()
-		return redirect('doctor_dashboard')
+		labtest.save()
+		return redirect('patient_detail',id=id)
 	return render(request,'lab_test_form.html',context_dict)
 
 @login_required(login_url='/accounts/login/')
@@ -422,11 +470,12 @@ def edit_operator(request):
 		raise Http404
 	instance=User.objects.get(id=request.user.id)
 	instance1=Operator.objects.get(user_id=instance.id) 
-	uform=UserCreationForm(request.POST or None, request.FILES or None, instance=instance)
+	uform=UserChangeForm(request.POST or None, request.FILES or None, instance=instance)
 	oform=OperatorForm(request.POST or None , request.FILES or None, instance=instance1)
 	context_dict={                       
 		'uform':uform,
 		'oform':oform,
+		'instance':Operator.objects.get(user_id=request.user.id),
 		}
 	if uform.is_valid() and oform.is_valid():
 		uform.save()
@@ -442,6 +491,7 @@ def register_patient(request):
 	form=PatientForm(request.POST or None)
 	context_dict={
 		'form':form,
+		'instance':Operator.objects.get(user_id=request.user.id),
 		}
 	if form.is_valid():
 		form.save()
@@ -491,21 +541,27 @@ def doctor_medicine_detail(request,id=None):
 	if not request.user.is_medical:
 		raise Http404
 	instance=get_object_or_404(Patient,id=id)
-	instance1=Medicine.objects.filter(patient_id=instance.id).order_by('-follow_up_date')
-	form=MedicalMedicineForm(request.POST or None)
+	form=MedicinesForm(request.POST or None)
+	instance1=Medicine.objects.filter(patient_id=instance.id).filter(date=date.today())
+	medical=Medical.objects.get(user_id=request.user.id)
 	context_dict={
 		'patient':instance,
-		'doctor':instance1,
+		'dm':instance1,
 		'form':form,
 	}
-	if form.is_valid():
-		medical_medicine = form.save(commit=False)
-		login_user_id=request.user.id
-		instance1=Medical.objects.get(user_id=login_user_id) 
-		medical_medicine.supplied_by=instance1
-		medical_medicine.patient_id=instance.id
-		medical_medicine.save()
-		return redirect('medical_dashboard')
+	if request.POST.get('id') is not None:
+		a=Medicine.objects.get(id=request.POST.get('id'))
+		a.is_purchased=True
+		a.amount=request.POST.get('amount')
+		a.supplied_by_id=medical.id
+		a.purchase_now=request.POST.get("purchase_now")
+		print("Purchase_now:",a.purchase_now)
+		if a.purchase_now=='on':
+			a.purchase_now=True
+		else:
+			a.purchase_now=False
+		a.save()
+		return redirect('doctor_medicine_detail',id=id)
 	return render(request,'doctor_medicine_detail.html', context_dict)
 
 @login_required(login_url='/accounts/login/')
@@ -550,18 +606,81 @@ def doctor_test_detail(request,id=None):
 		raise Http404
 	instance=get_object_or_404(Patient,id=id)
 	instance1=LabTest.objects.filter(patient_id=instance.id)
-	form=LaboratoristLabForm(request.POST or None)
 	context_dict={
 		'patient':instance,
-		'doctor':instance1,
-		'form':form,
+		'dt':instance1,
 	}
-	if form.is_valid():
-		lab = form.save(commit=False)
-		login_user_id=request.user.id
-		instance1=Laboratorist.objects.get(user_id=login_user_id) 
-		lab.test_by=instance1
-		lab.patient_id=instance.id
-		lab.save()
-		return redirect('laboratorist_dashboard')
+	if request.POST.get('id') is not None:
+		a=LabTest.objects.get(id=request.POST.get('id'))
+		a.is_sampled=True
+		a.result=request.POST.get('result')
+		a.amount=request.POST.get('amount')
+		a.save()
+		return redirect('doctor_test_detail',id=id)
 	return render(request,'doctor_test_detail.html', context_dict)
+
+@login_required(login_url='/accounts/login/')
+def lab_bill(request,id=None):
+	if not request.user.is_laboratorist:
+		raise Http404 
+	instance=get_object_or_404(Patient,id=id)
+	instance1=LabTest.objects.filter(patient_id=instance.id)
+	total_prices = sum(test.amount for test in instance1)
+	context_dict={
+		'patient':instance,
+		'dt':instance1,
+		'total_prices':total_prices,
+	}
+	return render(request,'lab_bill.html', context_dict)
+
+@login_required(login_url='/accounts/login/')
+def medicine_bill(request,id=None):
+	if not request.user.is_medical:
+		raise Http404 
+	instance=get_object_or_404(Patient,id=id)
+	medicine_list=Medicine.objects.filter(patient_id=instance.id).filter(date=date.today()).filter(purchase_now=True)
+	total_prices = sum(medicine.amount for medicine in medicine_list)
+	context={
+		'patient':instance,
+		'dm':medicine_list,
+		'total_prices':total_prices,
+	}
+	# return render(request,'medicine_bill.html', context_dict)
+	# html = template.render(context)
+	# return HttpResponse(html)
+	pdf=render_to_pdf('medicine_bill.html',context)
+	return HttpResponse(pdf,content_type='application/pdf') 
+
+
+def check_patient(request):
+	if not request.user.is_doctor:
+		raise Http404
+	# instance=get_object_or_404(Patient,id=id)
+	doc=Doctor.objects.get(user_id=request.user.id)
+	patient=Medicine.objects.filter(refered_by_id=doc.id)
+	context={
+		'patient':patient,
+	}
+	return render(request,'check_patient.html',context)
+
+def patient_report(request): 
+	queryset=Patient.objects.all()
+	query=request.GET.get('q')
+	if query:
+		queryset=queryset.filter(
+			Q(id__iexact=query)
+			).distinct()
+		instance=get_object_or_404(Patient,id=query)
+		medicine_list=Medicine.objects.filter(patient_id=instance.id)
+		total_prices = sum(medicine.amount for medicine in medicine_list)
+		context={
+		'patient':instance,
+		'dm':medicine_list,
+		'total_prices':total_prices,
+		}
+		pdf=render_to_pdf('medicine_bill.html',context)
+		return HttpResponse(pdf,content_type='application/pdf')
+	context_dict={
+		'report':'No report to show'
+	}
+	return render(request,'patient_form.html',context_dict)

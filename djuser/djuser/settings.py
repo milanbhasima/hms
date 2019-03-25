@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'operators',
     'medicines',
     'lab_tests',
-    'medical_medicines',
-    'laboratorist_labs',
+    'social_django', 
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -62,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'djuser.urls'
@@ -77,6 +78,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -142,3 +146,29 @@ MEDIA_URL= '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+from django.urls import reverse_lazy
+
+LOGIN_REDIRECT_URL =reverse_lazy('home')
+LOGIN__URL=reverse_lazy('login')
+LOGOUT__URL=reverse_lazy('logout')
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='milanbhasima1@gmail.com'
+EMAIL_HOST_PASSWORD=''
+EMAIL_PORT=587
+EMAIL_USE_TLS= True
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = 'e20eefca2f6bf156d2a7'
+SOCIAL_AUTH_GITHUB_SECRET = '1f1ae247e3085b3a83f5ec318f09c6952ccf6129'
+
